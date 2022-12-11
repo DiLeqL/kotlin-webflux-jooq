@@ -3,12 +3,12 @@ import nu.studer.gradle.jooq.JooqEdition.OSS
 import org.jooq.meta.jaxb.Logging.WARN
 import org.jooq.meta.jaxb.Property
 
-val dbUrl: String = "jdbc:postgresql://dev-database.cdx4sunf7zls.eu-west-1.rds.amazonaws.com:5432/rx_test?user=postgres&password=aVDB6nh7T2sRT10006pG&useSSL=false'"
-val jooqVersion = "3.15.1"
+val dbUrl: String = "jdbc:postgresql://localhost:5432/check_rx?user=postgres&password=password&useSSL=false'"
+val jooqVersion = "3.17.5"
 
 plugins {
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot") version "3.0.0"
+    id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     id("nu.studer.jooq") version "6.0.1"
@@ -24,21 +24,27 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 
-    // db
-    //runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql:0.8.12.RELEASE")
-    jooqGenerator("org.postgresql:postgresql:42.2.14")
+
+    // DB
+    runtimeOnly("io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE")
+    jooqGenerator("org.postgresql:postgresql:42.5.1")
     implementation("org.jooq:jooq-codegen:$jooqVersion")
     implementation("org.jooq:jooq-meta:$jooqVersion")
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
+    implementation("io.r2dbc:r2dbc-pool:1.0.0.RELEASE")
 }
 
 jooq {
